@@ -1,25 +1,23 @@
-use chrono::{DateTime, Datelike, NaiveDate, Utc};
+use chrono::{DateTime, Datelike, Duration, NaiveDate, Weekday, Utc};
 
 fn main() {
+    
     let utc: DateTime<Utc> = Utc::now();
     println!("Servus am {} um {}!", utc.date_naive(), utc.time());
 
-    let mut kalender = Vec::new();
+    let start_date = NaiveDate::from_ymd_opt(2024, 12, 1).expect("Kein gültiges Datum!");
+    let end_date = NaiveDate::from_ymd_opt(2024, 12, 14).expect("Kein gültiges Datum!");
 
-    let tage = vec![
-        NaiveDate::from_ymd_opt(2024, 12, 1).unwrap(),
-        NaiveDate::from_ymd_opt(2024, 12, 2).unwrap(),
-        NaiveDate::from_ymd_opt(2024, 12, 3).unwrap(),
-        NaiveDate::from_ymd_opt(2024, 12, 4).unwrap(),
-        NaiveDate::from_ymd_opt(2024, 12, 5).unwrap(),
-    ];
+    let mut calendar: Vec<(NaiveDate, Weekday)> = Vec::new();
 
-    for datum in tage {
-        let wochentag = datum.weekday();
-        kalender.push((datum, wochentag));
+    let mut date = start_date;
+    while date <= end_date {
+        let weekday = date.weekday();
+        calendar.push((date, weekday));
+        date += Duration::days(1);
     }
 
-    for (datum, wochentag) in &kalender {
-        println!("{}, {}", wochentag, datum.format("%d. %B %Y"));
+    for (date_of_interest, weekday) in &calendar {
+        println!("{}, {}", weekday, date_of_interest.format("%d. %B %Y"));
     }
 }
