@@ -18,6 +18,20 @@ fn main() {
     }
 
     for (date_of_interest, weekday) in &calendar {
-        println!("{}, {}", weekday, date_of_interest.format("%d. %B %Y"));
+        println!("{}, {}", weekday_to_german(&weekday.to_string()), date_of_interest.format("%d.%m.%Y"));
+    }
+
+}
+
+fn weekday_to_german(weekday: &String) -> String {
+    match weekday.as_str() {
+        "Mon" => "Mo".to_string(),
+        "Tue" => "Di".to_string(),
+        "Wed" => "Mi".to_string(),
+        "Thu" => "Do".to_string(),
+        "Fri" => "Fr".to_string(),
+        "Sat" => "Sa".to_string(),
+        "Sun" => "So".to_string(),
+        _ => weekday.to_string(),
     }
 }
